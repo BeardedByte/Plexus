@@ -6,5 +6,11 @@
     "klein/klein": "^2.1",
     "twig/twig": "^2.6",
     "symfony/yaml": "^4.2"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-0": {
+      "Plexus": "/"
+    }
   }
 }
