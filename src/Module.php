@@ -83,7 +83,7 @@ class Module
      * @return null|string
      */
     public function getTemplateDirPath() {
-        $template_dirpath = $this->module_dirpath.'/Templates';
+        $template_dirpath = $this->module_dirpath.'/templates';
         if (is_dir($template_dirpath)) {
             return $template_dirpath;
         }
