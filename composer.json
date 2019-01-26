@@ -1,0 +1,10 @@
+{
+  "name": "beardedbyte/plexus",
+  "description": "Small website core using Klein and Twig",
+  "require": {
+    "php": "^7.1",
+    "klein/klein": "^2.1",
+    "twig/twig": "^2.6",
+    "symfony/yaml": "^4.2"
+  }
+}
