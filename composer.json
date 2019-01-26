@@ -7,10 +7,10 @@
     "twig/twig": "^2.6",
     "symfony/yaml": "^4.2"
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "autoload": {
-    "psr-0": {
-      "Plexus": "/"
+    "psr-4": {
+      "Plexus\\": "src/"
     }
   }
 }

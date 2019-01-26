@@ -30,10 +30,6 @@ class UploadModule extends Module
 
     public $MOVE_FAILED = "Failed to move uploaded file.";
 
-    /**
-     * @var
-     */
-    private $user;
 
     /**
      * UploadModule constructor.
@@ -78,7 +74,6 @@ class UploadModule extends Module
 
         // Check MIME Type
         // Example :$mimes = array('jpg' => 'image/jpeg', 'png' => 'image/png');
-        $finfo = new \finfo(FILEINFO_EXTENSION);
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
         if (false === $extension = array_search(
                 $finfo->file($_FILES[$name]['tmp_name']),

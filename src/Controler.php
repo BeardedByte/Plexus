@@ -60,7 +60,7 @@ class Controler
         try {
             echo $this->getContainer()->getRenderer()->render($template, $data);
         } catch (\Exception $e) {
-            $this->getContainer()->getApplication()->onException($e);
+            $this->getContainer()->getApplication()->onError($e);
         }
     }
 }
