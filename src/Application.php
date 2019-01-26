@@ -18,7 +18,7 @@ class Application
     /**
      * @var string
      */
-    static public $ROOT_PATH  = __DIR__ . '/../Plexus/';
+    static public $ROOT_PATH  = __DIR__ . '/../../../';
 
     /**
      * @var array
