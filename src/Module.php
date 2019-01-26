@@ -39,7 +39,7 @@ class Module
         $classInfo = new \ReflectionClass($this);
         $this->module_dirpath = dirname($classInfo->getFileName());
 
-        $controlers_dirpath = $this->module_dirpath.'/Controlers';
+        $controlers_dirpath = $this->module_dirpath.'/Controler';
 
         // Getting automatically all the controlers
         if (is_dir($controlers_dirpath)) {
@@ -50,11 +50,11 @@ class Module
                         continue;
                     }
                     $controler_name = str_replace('.php', '', $controler_file);
-                    $controler_class = '\\'.$classInfo->getNamespaceName().'\\Controlers\\'.$controler_name;
+                    $controler_class = '\\'.$classInfo->getNamespaceName().'\\Controler\\'.$controler_name;
                     if (!class_exists($controler_class)) {
                         throw new \Exception('Aucune classe nommée "'.$controler_class.'" n\'a été trouvée.');
                     }
-                    $this->addControler(new $controler_class($this));
+                    $this->addControler(new $controler_class($controler_name,$this));
                 }
             }
         }

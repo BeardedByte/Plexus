@@ -133,7 +133,8 @@ class Application
         // Logging the error
         Logger::logException('php', $e);
         if ($this->getEnvironmentConfiguration()->isDev()) {
-            echo $e->getTraceAsString();
+            echo $e->getMessage().'<br><br>';
+            echo nl2br($e->getTraceAsString());
         } else {
             try {
                 $this->onHttpError(500);
