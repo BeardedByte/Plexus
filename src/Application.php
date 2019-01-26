@@ -43,6 +43,7 @@ class Application
             $this->container = new Container($this);
             $this->configurations['environment'] = new EnvironmentConfiguration();
             $this->configurations['routes'] = new RoutesConfiguration();
+            $this->registerModules();
             $this->registerRoutes();
             $this->ready = true;
         } catch (\Exception $e) {
@@ -116,6 +117,13 @@ class Application
                 $this->container->getRouter()->respond('*', [$controler, $components['action']]);
             }
         }
+    }
+
+    /**
+     *
+     */
+    public function registerModules() {
+
     }
 
     /**
