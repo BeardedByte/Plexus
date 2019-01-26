@@ -55,7 +55,15 @@ class Container
     public function __construct(Application $application) {
         $this->application = $application;
         $this->router = new Klein();
-        $this->renderer_loader = new \Twig_Loader_Filesystem(Application::$ROOT_PATH.'/templates');
+
+        $templates_path = Application::$ROOT_PATH.'templates';
+        if (!is_dir($templates_path)) {
+            if (!mkdir($templates_path)) {
+                throw new \Exception('Impossible de créer le répertoire "'.$templates_path.'"');
+            }
+        }
+
+        $this->renderer_loader = new \Twig_Loader_Filesystem(Application::$ROOT_PATH.'templates');
         $this->renderer = new \Twig_Environment($this->renderer_loader);
         $this->databases = [];
         $this->controlers = [];
