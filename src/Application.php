@@ -43,6 +43,8 @@ class Application
             $this->container = new Container($this);
             $this->configurations['environment'] = new EnvironmentConfiguration();
             $this->configurations['routes'] = new RoutesConfiguration();
+            $this->registerDatabases();
+            $this->registerModelManagers();
             $this->registerModules();
             $this->registerRoutes();
             $this->ready = true;
@@ -123,6 +125,20 @@ class Application
      *
      */
     public function registerModules() {
+
+    }
+
+    /**
+     *
+     */
+    public function registerModelManagers() {
+
+    }
+
+    /**
+     *
+     */
+    public function registerDatabases() {
 
     }
 
