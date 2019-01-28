@@ -76,7 +76,7 @@ class ModelManager
      * @param QueryBuilder $qb
      * @param $data
      */
-    public function executeQueryBuilder(QueryBuilder $qb, $data) {
+    public function executeQueryBuilder(QueryBuilder $qb, $data=[]) {
         $this->execute($qb->query(), $data);
     }
 
