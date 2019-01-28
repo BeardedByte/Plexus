@@ -63,6 +63,36 @@ class ModelManager
     }
 
 
+    /** Query Builder */
+
+    /**
+     * @return QueryBuilder
+     */
+    public function getQueryBuilder() {
+        return new QueryBuilder($this->tableName);
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @param $data
+     */
+    public function executeQueryBuilder(QueryBuilder $qb, $data) {
+        $this->execute($qb->query(), $data);
+    }
+
+    /**
+     * @param $sql
+     * @param array $data
+     * @return array
+     */
+    public function execute($sql, $data=[]) {
+        $request = $this->database->prepare($sql);
+        if (!$request->execute($data)) {
+            throw new ModelManagerException('Une erreur est survenue');
+        };
+        return $request->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
     /** Requests builder */
 
     /**
