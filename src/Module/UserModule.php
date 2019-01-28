@@ -20,7 +20,7 @@ class UserModule extends Module
     /**
      * @var
      */
-    private $user;
+    protected $user;
 
     /**
      * UserModule constructor.
