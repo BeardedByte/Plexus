@@ -76,6 +76,7 @@ class ModelManager
      * @param QueryBuilder $qb
      * @param array $data
      * @return array
+     * @throws \Exception
      */
     public function executeQueryBuilder(QueryBuilder $qb, $data=[]) {
         return $this->execute($qb->query(), $data);
@@ -85,11 +86,12 @@ class ModelManager
      * @param $sql
      * @param array $data
      * @return array
+     * @throws \Exception
      */
     public function execute($sql, $data=[]) {
         $request = $this->database->prepare($sql);
         if (!$request->execute($data)) {
-            throw new ModelManagerException('Une erreur est survenue');
+            throw new \Exception('Une erreur est survenue');
         };
         return $request->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -164,7 +166,7 @@ class ModelManager
      * @param $model
      * @param $replacements
      *
-     * @throws ModelManagerException
+     * @throws \Exception
      */
     public function insert(&$model, $replacements=[]) {
         $sql = $this->build_insert_request();
@@ -189,7 +191,7 @@ class ModelManager
 
         $request = $this->database->prepare($sql);
         if (!$request->execute($_model)) {
-            throw new ModelManagerException('Une erreur est survenue');
+            throw new \Exception('Une erreur est survenue');
         };
 
         if ($updateId) {
@@ -203,13 +205,13 @@ class ModelManager
      * e.g. $array('id' => 1)
      *
      * @return array
-     * @throws ModelManagerException
+     * @throws \Exception
      */
     public function select($model) {
         $sql = $this->build_select_request($model);
         $request = $this->database->prepare($sql);
         if (!$request->execute($model)) {
-            throw new ModelManagerException('Une erreur est survenue');
+            throw new \Exception('Une erreur est survenue');
         };
 
         return $request->fetchAll(\PDO::FETCH_ASSOC);
@@ -220,7 +222,7 @@ class ModelManager
      * @param $replacements
      * The update selection is based on the id
      *
-     * @throws ModelManagerException
+     * @throws \Exception
      */
     public function update($model, $replacements=[]) {
         $sql = $this->build_update_request();
@@ -236,7 +238,7 @@ class ModelManager
 
         $request = $this->database->prepare($sql);
         if (!$request->execute($_model)) {
-            throw new ModelManagerException('Une erreur est survenue');
+            throw new \Exception('Une erreur est survenue');
         };
     }
 
@@ -244,7 +246,7 @@ class ModelManager
      * @param $model
      * The delete selection is based on the id
      *
-     * @throws ModelManagerException
+     * @throws \Exception
      */
     public function delete($model) {
 
@@ -254,7 +256,7 @@ class ModelManager
 
         $request = $this->database->prepare($sql);
         if (!$request->execute($_model)) {
-            throw new ModelManagerException('Une erreur est survenue');
+            throw new \Exception('Une erreur est survenue');
         };
     }
 
@@ -263,7 +265,7 @@ class ModelManager
 
     /**
      * @return array
-     * @throws ModelManagerException
+     * @throws \Exception
      */
     public function get_all() {
         return $this->select(array());
@@ -273,7 +275,7 @@ class ModelManager
      * @param $id
      *
      * @return array
-     * @throws ModelManagerException
+     * @throws \Exception
      */
     public function get($id) {
         $users = $this->select(array('id' => $id));

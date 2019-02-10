@@ -9,6 +9,7 @@
 namespace Plexus;
 
 
+use Klein\Klein;
 use Plexus\Configuration\EnvironmentConfiguration;
 use Plexus\Configuration\RoutesConfiguration;
 
@@ -59,7 +60,7 @@ class Application
     public function run() {
         if ($this->ready) {
             $this->container->getRouter()->onHttpError([$this, 'onHttpError']);
-            $this->container->getRouter()->onError([$this, 'onError']);
+            $this->container->getRouter()->onError([$this, 'onKleinError']);
             $this->container->getRouter()->dispatch();
         }
     }
@@ -140,6 +141,16 @@ class Application
      */
     public function registerDatabases() {
 
+    }
+
+    /**
+     * @param Klein $klein
+     * @param $msg
+     * @param $type
+     * @param $err
+     */
+    public function onKleinError(Klein $klein, $msg, $type, $err) {
+        $this->onError(new \Exception($msg));
     }
 
     /**
