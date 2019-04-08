@@ -28,6 +28,21 @@ class QueryBuilder
     /**
      * @var array
      */
+    private $join = [];
+
+    /**
+     * @var array
+     */
+    private $leftjoin = [];
+
+    /**
+     * @var array
+     */
+    private $rightjoin = [];
+
+    /**
+     * @var array
+     */
     private $order = [];
 
     /**
@@ -83,6 +98,36 @@ class QueryBuilder
         } else {
             $this->where[] = $condition;
         }
+
+        return $this;
+    }
+
+    /**
+     * @param $table_name
+     * @param $glue
+     */
+    public function join($table_name, $glue) {
+        $this->join[] = ['table_name' => $table_name, 'glue' => $glue];
+
+        return $this;
+    }
+
+    /**
+     * @param $table_name
+     * @param $glue
+     */
+    public function leftjoin($table_name, $glue) {
+        $this->leftjoin[] = ['table_name' => $table_name, 'glue' => $glue];
+
+        return $this;
+    }
+
+    /**
+     * @param $table_name
+     * @param $glue
+     */
+    public function rightjoin($table_name, $glue) {
+        $this->rightjoin[] = ['table_name' => $table_name, 'glue' => $glue];
 
         return $this;
     }
@@ -155,12 +200,29 @@ class QueryBuilder
 
         $query = $query.' FROM '.$this->from;
 
+        if (count($this->join) > 0) {
+            foreach ($this->join as $join) {
+                $query = $query.' JOIN '.$join['table_name'].' ON '.$join['glue'];
+            }
+        }
+
+        if (count($this->leftjoin) > 0) {
+            foreach ($this->leftjoin as $join) {
+                $query = $query.' LEFT JOIN '.$join['table_name'].' ON '.$join['glue'];
+            }
+        }
+
+        if (count($this->rightjoin) > 0) {
+            foreach ($this->rightjoin as $join) {
+                $query = $query.' RIGHT JOIN '.$join['table_name'].' ON '.$join['glue'];
+            }
+        }
+
         if (count($this->where) > 0) {
             $query = $query.' WHERE';
 
             foreach ($this->where as $where) {
                 $query = $query.' '.$where;
-
             }
         }
 

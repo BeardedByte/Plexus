@@ -9,6 +9,8 @@
 namespace Plexus;
 
 
+use Plexus\Configuration\ModuleConfiguration;
+use Plexus\Utils\Feeder;
 use Twig\Loader\FilesystemLoader;
 
 class Module
@@ -21,6 +23,8 @@ class Module
     protected $module_dirpath;
 
     protected $controlers;
+
+    protected $routes_config;
 
     /**
      * Module constructor.
@@ -39,6 +43,9 @@ class Module
         $classInfo = new \ReflectionClass($this);
         $this->module_dirpath = dirname($classInfo->getFileName());
 
+        // Getting the route config
+        $this->routes_config = new ConfigurationParser('routes', $this->module_dirpath);
+
         $controlers_dirpath = $this->module_dirpath.'/Controler';
 
         // Getting automatically all the controlers
@@ -52,6 +59,7 @@ class Module
                     $controler_name = str_replace('.php', '', $controler_file);
                     $controler_class = '\\'.$classInfo->getNamespaceName().'\\Controler\\'.$controler_name;
                     if (!class_exists($controler_class)) {
+
                         throw new \Exception('Aucune classe nommée "'.$controler_class.'" n\'a été trouvée.');
                     }
                     $this->addControler(new $controler_class($controler_name,$this));
@@ -77,6 +85,23 @@ class Module
      */
     public function getModuleDirPath() {
         return $this->module_dirpath;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoutes() {
+        $_routes = $this->routes_config->get();
+        if ($_routes === null) {
+            return [];
+        }
+
+        $routes = [];
+        foreach ($_routes as $_name => $_route) {
+            $routes[] = Feeder::feed(['method' ,'path', 'action'], $_route);
+        }
+
+        return $routes;
     }
 
     /**

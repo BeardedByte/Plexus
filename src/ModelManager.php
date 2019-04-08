@@ -183,7 +183,7 @@ class ModelManager
         $_model = [];
         foreach ($model as $key => $value) {
             if (array_key_exists($key, $replacements)) {
-                $sql = str_replace(':'.$key, $replacements[$key], $sql);
+                $sql = str_replace(':'.$key.',', $replacements[$key].',', $sql);
             } else {
                 $_model[$key] = $value;
             }
@@ -230,7 +230,7 @@ class ModelManager
         $_model = [];
         foreach ($model as $key => $value) {
             if (isset($replacements[$key])) {
-                $sql = str_replace(':'.$key, $replacements[$key], $sql);
+                $sql = str_replace(':'.$key.',', $replacements[$key].',', $sql);
             } else {
                 $_model[$key] = $value;
             }

@@ -104,21 +104,37 @@ class Application
      * @throws \Exception
      */
     protected function registerRoutes() {
+        // Get the routes defined in the config folder
         $routes = $this->getRoutesConfiguration()->getRoutes();
         foreach ($routes as $route) {
-            $components = $this->parseActionIdentifier($route['action']);
-            $module = $this->container->getModule($components['module']);
-            $controler = $module->getControler($components['controler']);
-            if (!method_exists($controler, $components['action'])) {
-                throw new \Exception('Aucune action nommée "'.$components['action'].'" n\'existe dans le contrôleur "'.$components['module'].':'.$components['controler'].'"');
+            $this->createRoute($route);
+        }
+
+        // Get the routes defined in all the modules
+        foreach ($this->getContainer()->getModules() as $module) {
+            foreach ($module->getRoutes() as $route) {
+                $this->createRoute($route);
             }
-            if ($route['method'] !== null) {
-                $this->container->getRouter()->respond($route['method'], $route['path'], [$controler, $components['action']]);
-            } else if ($route['path'] !== null) {
-                $this->container->getRouter()->respond($route['method'], $route['path'], [$controler, $components['action']]);
-            } else {
-                $this->container->getRouter()->respond('*', [$controler, $components['action']]);
-            }
+        }
+    }
+
+    /**
+     * @param $route
+     * @throws \Exception
+     */
+    protected function createRoute($route) {
+        $components = $this->parseActionIdentifier($route['action']);
+        $module = $this->container->getModule($components['module']);
+        $controler = $module->getControler($components['controler']);
+        if (!method_exists($controler, $components['action'])) {
+            throw new \Exception('Aucune action nommée "'.$components['action'].'" n\'existe dans le contrôleur "'.$components['module'].':'.$components['controler'].'"');
+        }
+        if ($route['method'] !== null) {
+            $this->container->getRouter()->respond($route['method'], $route['path'], [$controler, $components['action']]);
+        } else if ($route['path'] !== null) {
+            $this->container->getRouter()->respond($route['method'], $route['path'], [$controler, $components['action']]);
+        } else {
+            $this->container->getRouter()->respond('*', [$controler, $components['action']]);
         }
     }
 

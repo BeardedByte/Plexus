@@ -17,8 +17,14 @@ class ConfigurationParser
 
     protected $config_content;
 
-    public function __construct($config_name) {
-        $this->config_dirpath = Application::$ROOT_PATH.'config';
+    public function __construct($config_name, $config_dirpath=null) {
+
+        if ($config_dirpath == null) {
+            $this->config_dirpath = Application::$ROOT_PATH.'config';
+        } else {
+            $this->config_dirpath = $config_dirpath;
+        }
+
 
         if (!is_dir($this->config_dirpath)) {
             if (!mkdir($this->config_dirpath)) {
